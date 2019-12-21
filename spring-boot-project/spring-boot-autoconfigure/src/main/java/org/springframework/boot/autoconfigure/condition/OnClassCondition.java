@@ -78,8 +78,10 @@ class OnClassCondition extends FilteringSpringBootCondition {
 	public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
 		ClassLoader classLoader = context.getClassLoader();
 		ConditionMessage matchMessage = ConditionMessage.empty();
+		// 获取@ConditionalOnClass上的value
 		List<String> onClasses = getCandidates(metadata, ConditionalOnClass.class);
 		if (onClasses != null) {
+			// 通过filter进行过滤，注意这里传入的是ClassNameFilter.MISSING，也就说返回true表示没有@ConditionalOnClass的类
 			List<String> missing = filter(onClasses, ClassNameFilter.MISSING, classLoader);
 			if (!missing.isEmpty()) {
 				return ConditionOutcome.noMatch(ConditionMessage.forCondition(ConditionalOnClass.class)
@@ -104,6 +106,7 @@ class OnClassCondition extends FilteringSpringBootCondition {
 	}
 
 	private List<String> getCandidates(AnnotatedTypeMetadata metadata, Class<?> annotationType) {
+		// 获取注解上的value，封装成list返回
 		MultiValueMap<String, Object> attributes = metadata.getAllAnnotationAttributes(annotationType.getName(), true);
 		if (attributes == null) {
 			return null;

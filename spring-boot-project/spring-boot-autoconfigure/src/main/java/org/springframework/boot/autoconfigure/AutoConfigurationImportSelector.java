@@ -262,24 +262,34 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 	}
 
 	private List<String> filter(List<String> configurations, AutoConfigurationMetadata autoConfigurationMetadata) {
+		// 记录开始时间，用于下面统计消耗的时间
 		long startTime = System.nanoTime();
+		// 配置类的数组
 		String[] candidates = StringUtils.toStringArray(configurations);
 		boolean[] skip = new boolean[candidates.length];
 		boolean skipped = false;
+		// 遍历 AutoConfigurationImportFilter 数组，逐个匹配 getAutoConfigurationImportFilters方法会从缓存中取出3个对象
 		for (AutoConfigurationImportFilter filter : getAutoConfigurationImportFilters()) {
+			// 设置 AutoConfigurationImportFilter 的属性
 			invokeAwareMethods(filter);
+			// 执行批量匹配，并返回匹配结果
 			boolean[] match = filter.match(candidates, autoConfigurationMetadata);
 			for (int i = 0; i < match.length; i++) {
+				// 如果有不匹配的
 				if (!match[i]) {
 					skip[i] = true;
+					// 标记为空，循环的下一次就无须进行匹配了
 					candidates[i] = null;
+					// 标记存在不匹配的
 					skipped = true;
 				}
 			}
 		}
+		// 如果没有需要忽略的，直接返回 configurations 即可
 		if (!skipped) {
 			return configurations;
 		}
+		// 如果存在需要忽略的，构建新的数组，排除掉忽略的
 		List<String> result = new ArrayList<>(candidates.length);
 		for (int i = 0; i < candidates.length; i++) {
 			if (!skip[i]) {
@@ -460,7 +470,7 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 		}
 
 		private AutoConfigurationMetadata getAutoConfigurationMetadata() {
-			// 不存在进行加载
+			// 如果自动配置的元数据为空，则通过AutoConfigurationMetadataLoader进行加载，但是目前是没有spring-autoconfigure-metadata.properties配置文件的
 			if (this.autoConfigurationMetadata == null) {
 				this.autoConfigurationMetadata = AutoConfigurationMetadataLoader.loadMetadata(this.beanClassLoader);
 			}
