@@ -50,14 +50,17 @@ public class AutoConfigurationExcludeFilter implements TypeFilter, BeanClassLoad
 	}
 
 	private boolean isConfiguration(MetadataReader metadataReader) {
+		// 是否有配置注解
 		return metadataReader.getAnnotationMetadata().isAnnotated(Configuration.class.getName());
 	}
 
 	private boolean isAutoConfiguration(MetadataReader metadataReader) {
+		// 判断是否是配置类
 		return getAutoConfigurations().contains(metadataReader.getClassMetadata().getClassName());
 	}
 
 	protected List<String> getAutoConfigurations() {
+		// 通过spring-boot的spi机制，加载对象
 		if (this.autoConfigurations == null) {
 			this.autoConfigurations = SpringFactoriesLoader.loadFactoryNames(EnableAutoConfiguration.class,
 					this.beanClassLoader);

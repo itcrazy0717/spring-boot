@@ -62,6 +62,7 @@ public class TypeExcludeFilter implements TypeFilter, BeanFactoryAware {
 		if (this.beanFactory instanceof ListableBeanFactory && getClass() == TypeExcludeFilter.class) {
 			Collection<TypeExcludeFilter> delegates = ((ListableBeanFactory) this.beanFactory)
 					.getBeansOfType(TypeExcludeFilter.class).values();
+			// 过滤需要被排除的bean
 			for (TypeExcludeFilter delegate : delegates) {
 				if (delegate.match(metadataReader, metadataReaderFactory)) {
 					return true;

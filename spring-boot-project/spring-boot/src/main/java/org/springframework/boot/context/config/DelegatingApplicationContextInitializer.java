@@ -44,13 +44,21 @@ public class DelegatingApplicationContextInitializer
 
 	// NOTE: Similar to org.springframework.web.context.ContextLoader
 
+	/**
+	 * 环境变量属性的配置
+	 */
 	private static final String PROPERTY_NAME = "context.initializer.classes";
 
+	/**
+	 * 默认优先级
+	 */
 	private int order = 0;
 
 	@Override
 	public void initialize(ConfigurableApplicationContext context) {
+		// 获得环境变量
 		ConfigurableEnvironment environment = context.getEnvironment();
+		// 得到环境变量的集合
 		List<Class<?>> initializerClasses = getInitializerClasses(environment);
 		if (!initializerClasses.isEmpty()) {
 			applyInitializerClasses(context, initializerClasses);
@@ -58,9 +66,11 @@ public class DelegatingApplicationContextInitializer
 	}
 
 	private List<Class<?>> getInitializerClasses(ConfigurableEnvironment env) {
+		// 通过属性获取具体环境变量value
 		String classNames = env.getProperty(PROPERTY_NAME);
 		List<Class<?>> classes = new ArrayList<>();
 		if (StringUtils.hasLength(classNames)) {
+			// 遍历实例化类
 			for (String className : StringUtils.tokenizeToStringArray(classNames, ",")) {
 				classes.add(getInitializerClass(className));
 			}
@@ -82,9 +92,11 @@ public class DelegatingApplicationContextInitializer
 	private void applyInitializerClasses(ConfigurableApplicationContext context, List<Class<?>> initializerClasses) {
 		Class<?> contextClass = context.getClass();
 		List<ApplicationContextInitializer<?>> initializers = new ArrayList<>();
+		// 遍历initializerClasses(环境变量数组)，创建ApplicationContextInitializer对象
 		for (Class<?> initializerClass : initializerClasses) {
 			initializers.add(instantiateInitializer(contextClass, initializerClass));
 		}
+		// 执行ApplicationContextInitializer的初始化逻辑
 		applyInitializers(context, initializers);
 	}
 
@@ -102,7 +114,9 @@ public class DelegatingApplicationContextInitializer
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void applyInitializers(ConfigurableApplicationContext context,
 			List<ApplicationContextInitializer<?>> initializers) {
+		// 排序
 		initializers.sort(new AnnotationAwareOrderComparator());
+		// 执行初始化逻辑
 		for (ApplicationContextInitializer initializer : initializers) {
 			initializer.initialize(context);
 		}

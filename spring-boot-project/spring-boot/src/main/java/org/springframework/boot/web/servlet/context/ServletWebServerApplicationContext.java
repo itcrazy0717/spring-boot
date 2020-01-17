@@ -103,8 +103,14 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 	 */
 	public static final String DISPATCHER_SERVLET_NAME = "dispatcherServlet";
 
+	/**
+	 * spring webserver对象
+	 */
 	private volatile WebServer webServer;
 
+	/**
+	 * ServletConfig对象
+	 */
 	private ServletConfig servletConfig;
 
 	private String serverNamespace;
@@ -130,8 +136,11 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 	 */
 	@Override
 	protected void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
+		// 注册WebApplicationContextServletContextAwareProcessor
 		beanFactory.addBeanPostProcessor(new WebApplicationContextServletContextAwareProcessor(this));
+		// 忽略 ServletContextAware 接口
 		beanFactory.ignoreDependencyInterface(ServletContextAware.class);
+		// 注册 ExistingWebApplicationScopes 
 		registerWebApplicationScopes();
 	}
 

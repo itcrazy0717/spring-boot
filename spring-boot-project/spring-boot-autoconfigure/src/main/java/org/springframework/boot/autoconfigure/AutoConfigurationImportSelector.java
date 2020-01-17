@@ -118,7 +118,7 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 		AnnotationAttributes attributes = getAttributes(annotationMetadata);
 		// 获得符合条件的配置类的数组
 		List<String> configurations = getCandidateConfigurations(annotationMetadata, attributes);
-		// 移除重复的配置类
+		// 移除重复的配置类 利用set去重
 		configurations = removeDuplicates(configurations);
 		// 获得需要排除的配置类
 		Set<String> exclusions = getExclusions(annotationMetadata, attributes);
@@ -126,7 +126,7 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 		checkExcludedClasses(configurations, exclusions);
 		// 从 configurations 中，移除需要排除的配置类
 		configurations.removeAll(exclusions);
-		// 根据条件（Condition），过滤掉不符合条件的配置类
+		// 根据条件（Condition），过滤掉不符合条件的配置类 过滤META-INF/spring.facotries资源中那些当前ClassLoader不存在的class
 		configurations = filter(configurations, autoConfigurationMetadata);
 		// 触发自动配置类引入完成的事件
 		fireAutoConfigurationImportEvents(configurations, exclusions);
