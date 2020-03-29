@@ -126,7 +126,7 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 		checkExcludedClasses(configurations, exclusions);
 		// 从 configurations 中，移除需要排除的配置类
 		configurations.removeAll(exclusions);
-		// 根据条件（Condition），过滤掉不符合条件的配置类 过滤META-INF/spring.facotries资源中那些当前ClassLoader不存在的class
+		// 根据条件（Condition），过滤掉不符合条件的配置类 过滤META-INF/spring.factories资源中那些当前ClassLoader不存在的class
 		configurations = filter(configurations, autoConfigurationMetadata);
 		// 触发自动配置类引入完成的事件
 		fireAutoConfigurationImportEvents(configurations, exclusions);
