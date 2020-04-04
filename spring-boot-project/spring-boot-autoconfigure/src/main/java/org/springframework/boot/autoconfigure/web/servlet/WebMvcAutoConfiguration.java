@@ -424,6 +424,7 @@ public class WebMvcAutoConfiguration {
 		@Override
 		public RequestMappingHandlerAdapter requestMappingHandlerAdapter() {
 			// 创建RequestMappingHandlerAdapter
+			// 这里非常的重要，要仔细调试
 			RequestMappingHandlerAdapter adapter = super.requestMappingHandlerAdapter();
 			adapter.setIgnoreDefaultModelOnRedirect(
 					this.mvcProperties == null || this.mvcProperties.isIgnoreDefaultModelOnRedirect());
