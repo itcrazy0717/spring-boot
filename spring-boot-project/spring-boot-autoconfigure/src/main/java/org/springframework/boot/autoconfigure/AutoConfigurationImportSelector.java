@@ -470,7 +470,7 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 		}
 
 		private AutoConfigurationMetadata getAutoConfigurationMetadata() {
-			// 如果自动配置的元数据为空，则通过AutoConfigurationMetadataLoader进行加载，但是目前是没有spring-autoconfigure-metadata.properties配置文件的
+			// 如果自动配置的元数据为空，则通过AutoConfigurationMetadataLoader进行加载
 			if (this.autoConfigurationMetadata == null) {
 				this.autoConfigurationMetadata = AutoConfigurationMetadataLoader.loadMetadata(this.beanClassLoader);
 			}

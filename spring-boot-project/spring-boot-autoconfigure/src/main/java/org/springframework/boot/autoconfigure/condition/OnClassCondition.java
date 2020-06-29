@@ -87,6 +87,7 @@ class OnClassCondition extends FilteringSpringBootCondition {
 				return ConditionOutcome.noMatch(ConditionMessage.forCondition(ConditionalOnClass.class)
 						.didNotFind("required class", "required classes").items(Style.QUOTE, missing));
 			}
+			// 通过filter进行过滤，注意这里传入的是ClassNameFilter.PRESENT，返回true表示存在
 			matchMessage = matchMessage.andCondition(ConditionalOnClass.class)
 					.found("required class", "required classes")
 					.items(Style.QUOTE, filter(onClasses, ClassNameFilter.PRESENT, classLoader));

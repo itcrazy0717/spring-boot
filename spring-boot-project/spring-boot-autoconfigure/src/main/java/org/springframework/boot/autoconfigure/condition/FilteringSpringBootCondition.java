@@ -120,7 +120,7 @@ abstract class FilteringSpringBootCondition extends SpringBootCondition
 			public boolean matches(String className, ClassLoader classLoader) {
 				// 其实这里就是去加载类，看是否成功，注意这里是missing，所以如果isPresent为true表示类加载成功，需返回false
 				// 如果类未加载成功，抛出异常，返回false，然后再返回true
-				// 稍微有一点绕，注意
+				// 稍微有一点绕，注意 因为是missing，所以未匹配成功返回true，成功匹配返回false
 				return !isPresent(className, classLoader);
 			}
 
