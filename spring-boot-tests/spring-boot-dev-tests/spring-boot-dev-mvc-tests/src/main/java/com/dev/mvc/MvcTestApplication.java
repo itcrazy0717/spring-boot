@@ -9,9 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @description:MVC测试类
  */
 @SpringBootApplication
-public class MVCTestApplication {
+public class MvcTestApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MVCTestApplication.class, args);
+		SpringApplication.run(MvcTestApplication.class, args);
 	}
 }
