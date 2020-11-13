@@ -740,6 +740,7 @@ public class SpringApplication {
 			logger.debug("Loading source " + StringUtils.arrayToCommaDelimitedString(sources));
 		}
 		// 创建BeanDefinitionLoader对象
+		// 这里创建了AnnotatedBeanDefinitionReader等扫描bean对象重要数据
 		BeanDefinitionLoader loader = createBeanDefinitionLoader(getBeanDefinitionRegistry(context), sources);
 		if (this.beanNameGenerator != null) {
 			loader.setBeanNameGenerator(this.beanNameGenerator);
