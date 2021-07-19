@@ -57,6 +57,9 @@ public interface Archive extends Iterable<Archive.Entry> {
 
 	/**
 	 * Represents a single entry in the archive.
+	 * 两种实现
+	 * {@link JarFileArchive.JarFileEntry}
+	 * {@link ExplodedArchive.FileEntry}
 	 */
 	interface Entry {
 
@@ -69,6 +72,7 @@ public interface Archive extends Iterable<Archive.Entry> {
 		/**
 		 * Returns the name of the entry.
 		 * @return the name of the entry
+		 * 获取资源的相对路径
 		 */
 		String getName();
 

@@ -45,9 +45,11 @@ public class JarLauncher extends ExecutableArchiveLauncher {
 		if (entry.isDirectory()) {
 			return entry.getName().equals(BOOT_INF_CLASSES);
 		}
+		// 以lib开头，则表示内嵌依赖文件
 		return entry.getName().startsWith(BOOT_INF_LIB);
 	}
 
+	// 当引导jar包启动时，调用此处的main方法
 	public static void main(String[] args) throws Exception {
 		new JarLauncher().launch(args);
 	}
