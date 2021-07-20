@@ -29,8 +29,9 @@ import org.springframework.boot.loader.archive.Archive;
  */
 public class JarLauncher extends ExecutableArchiveLauncher {
 
+	// 存放本项目类文件目录
 	static final String BOOT_INF_CLASSES = "BOOT-INF/classes/";
-
+    // 存放项目依赖文件目录
 	static final String BOOT_INF_LIB = "BOOT-INF/lib/";
 
 	public JarLauncher() {
@@ -42,6 +43,7 @@ public class JarLauncher extends ExecutableArchiveLauncher {
 
 	@Override
 	protected boolean isNestedArchive(Archive.Entry entry) {
+		// 整个函数的逻辑就是判断是否是内嵌文件
 		if (entry.isDirectory()) {
 			return entry.getName().equals(BOOT_INF_CLASSES);
 		}

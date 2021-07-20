@@ -46,8 +46,12 @@ public abstract class Launcher {
 	 * @throws Exception if the application fails to launch
 	 */
 	protected void launch(String[] args) throws Exception {
+		// registerUrlProtocolHandler利用java.net.URLStreamHandler扩展机制
+		// 其实现由URL#getURLStreamHandler(String)提供??
 		JarFile.registerUrlProtocolHandler();
+		// 创建类加载器
 		ClassLoader classLoader = createClassLoader(getClassPathArchives());
+		// 启动具体对象 注意getMainClass方法
 		launch(args, getMainClass(), classLoader);
 	}
 
@@ -84,6 +88,7 @@ public abstract class Launcher {
 	 */
 	protected void launch(String[] args, String mainClass, ClassLoader classLoader) throws Exception {
 		Thread.currentThread().setContextClassLoader(classLoader);
+		// 创建MainMethodRunner对象，并启动
 		createMainMethodRunner(mainClass, args, classLoader).run();
 	}
 

@@ -44,6 +44,7 @@ public class MainMethodRunner {
 
 	public void run() throws Exception {
 		Class<?> mainClass = Thread.currentThread().getContextClassLoader().loadClass(this.mainClassName);
+		// 通过反射执行启动类的main方法
 		Method mainMethod = mainClass.getDeclaredMethod("main", String[].class);
 		mainMethod.invoke(null, new Object[] { this.args });
 	}
